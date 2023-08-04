@@ -17,6 +17,7 @@ class BookSearchViewModel {
   static const authorAliveLatest = 2023;
   final authorAliveBetween = ValueNotifier(RangeValues(authorAliveEarliest.toDouble(), authorAliveLatest.toDouble()));
   final loading = ValueNotifier(false);
+  final topic = ValueNotifier("");
 
   void setSortOption(Sort option) {
     sortOption.value = option;
@@ -38,6 +39,10 @@ class BookSearchViewModel {
     authorAliveBetween.value = values;
   }
 
+  void setTopic(String topic) {
+    this.topic.value = topic;
+  }
+
   void search() async {
     loading.value = true;
     final results = await _searchBooksUseCase.search(
@@ -46,6 +51,7 @@ class BookSearchViewModel {
       copyrightOptions: copyrightOptions.value,
       authorAliveEarliest: authorAliveBetween.value.start.round(),
       authorAliveLatest: authorAliveBetween.value.end.round(),
+      topic: topic.value
     );
     loading.value = false;
     if (results != null) {

@@ -23,5 +23,7 @@
   "search_filter_btn_apply": "Apply",
   "search_filter_title_author": "Authors alive between",
   "search_filter_label_bc": "{year} BC",
-  "search_filter_label_ad": "{year} AD"
+  "search_filter_label_ad": "{year} AD",
+  "search_filter_title_topic": "Topic",
+  "search_filter_hint_topic": "Adventure, drama..."
 }

@@ -8,10 +8,12 @@ import 'package:gutentag/ui/book_card.dart';
 import 'package:gutentag/ui/book_search_filter_screen.dart';
 
 class BookSearchScreen extends StatelessWidget {
-  BookSearchScreen({super.key});
+  BookSearchScreen({super.key}) {
+    textController.text = viewModel.query.value;
+  }
 
   final viewModel = BookSearchViewModel(searchBooksUseCase: SearchBooksUseCase(apiService: ApiService()));
-  final _textController = TextEditingController();
+  final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class BookSearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-          controller: _textController,
+          controller: textController,
           style: textStyle,
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -77,7 +79,7 @@ class BookSearchScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
                         child: Text(value == null
                             ? AppLocalizations.of(context)!.search_idle
-                            : AppLocalizations.of(context)!.search_no_results(_textController.text),
+                            : AppLocalizations.of(context)!.search_no_results(textController.text),
                           style: theme.textTheme.bodyLarge?.copyWith(color: theme.hintColor),
                         ),
                       )

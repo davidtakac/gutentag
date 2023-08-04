@@ -27,7 +27,8 @@ class ApiService {
       Sort sortOption,
       List<Copyright> copyrightOptions,
       int authorAliveEarliest,
-      int authorAliveLatest
+      int authorAliveLatest,
+      String topic,
   ) async {
     final String sortOptionString;
     switch(sortOption) {
@@ -42,7 +43,7 @@ class ApiService {
         default: return 'null';
       }
     }).join(",");
-    final response = await http.get(Uri.parse('$_url?sort=$sortOptionString&search=$query&copyright=$copyrightOptionsString&authorStartYear=$authorAliveEarliest&authorEndYear=$authorAliveLatest'));
+    final response = await http.get(Uri.parse('$_url?sort=$sortOptionString&search=$query&copyright=$copyrightOptionsString&authorStartYear=$authorAliveEarliest&authorEndYear=$authorAliveLatest&topic=$topic'));
     if (response.statusCode != 200) return null;
     return BooksResponse.fromJson(jsonDecode(response.body)).toBooks().results;
   }

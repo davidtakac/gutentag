@@ -14,5 +14,13 @@ class SearchBooksUseCase {
     List<Copyright> copyrightOptions = Copyright.values,
     int authorAliveEarliest = -3500,
     int authorAliveLatest = 2023,
-  }) => _apiService.searchBooks(query, sortOption, copyrightOptions, authorAliveEarliest, authorAliveLatest);
+    String topic = "",
+  }) => _apiService.searchBooks(
+      query,
+      sortOption,
+      copyrightOptions,
+      authorAliveEarliest,
+      authorAliveLatest,
+      topic
+  );
 }

@@ -4,9 +4,12 @@ import 'package:gutentag/domain/copyright_options.dart';
 import 'package:gutentag/presentation/book_search_view_model.dart';
 
 class BookSearchFilterScreen extends StatelessWidget {
-  const BookSearchFilterScreen({required this.viewModel, super.key});
+  BookSearchFilterScreen({required this.viewModel, super.key}) {
+    topicController.text = viewModel.topic.value;
+  }
 
   final BookSearchViewModel viewModel;
+  final topicController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +117,24 @@ class BookSearchFilterScreen extends StatelessWidget {
                   ],
                 )
               ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              AppLocalizations.of(context)!.search_filter_title_topic,
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            TextField(
+              controller: topicController,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: AppLocalizations.of(context)!.search_filter_hint_topic,
+              ),
+              onChanged: viewModel.setTopic,
             )
           ],
         ),
