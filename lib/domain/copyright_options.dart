@@ -1,0 +1,1 @@
+enum Copyright { yes, no, unknown }
