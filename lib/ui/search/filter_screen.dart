@@ -14,7 +14,6 @@ class FilterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async {
         viewModel.loadNextPage();
@@ -28,13 +27,7 @@ class FilterScreen extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
           children: [
-            Text(
-              AppLocalizations.of(context)!.search_filter_title_copyright,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
+            _SectionHeader(title: AppLocalizations.of(context)!.search_filter_title_copyright,),
             ValueListenableBuilder(
                 valueListenable: viewModel.copyrightOptions,
                 builder: (context, value, child) {
@@ -79,16 +72,7 @@ class FilterScreen extends StatelessWidget {
                     ],
                   );
                 }),
-            const SizedBox(
-              height: 24,
-            ),
-            Text(
-              AppLocalizations.of(context)!.search_filter_title_author,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
+            _SectionHeader(title: AppLocalizations.of(context)!.search_filter_title_author,),
             Column(
               children: [
                 ValueListenableBuilder(
@@ -119,16 +103,7 @@ class FilterScreen extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(
-              height: 24,
-            ),
-            Text(
-              AppLocalizations.of(context)!.search_filter_title_topic,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
+            _SectionHeader(title: AppLocalizations.of(context)!.search_filter_title_topic,),
             TextField(
               controller: topicController,
               decoration: InputDecoration(
@@ -136,16 +111,6 @@ class FilterScreen extends StatelessWidget {
                 hintText: AppLocalizations.of(context)!.search_filter_hint_topic,
               ),
               onChanged: viewModel.setTopic,
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Text(
-              AppLocalizations.of(context)!.search_filter_title_languages,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 8,
             ),
             ValueListenableBuilder(
                 valueListenable: viewModel.languages,
@@ -185,6 +150,27 @@ class FilterScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+
+  const _SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+      ],
     );
   }
 }
