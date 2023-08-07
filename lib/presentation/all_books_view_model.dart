@@ -4,10 +4,10 @@ import 'package:gutentag/presentation/all_books_state.dart';
 
 class AllBooksViewModel {
   AllBooksViewModel({
-    required this.getAllBooksUseCase
+    required this.getMostPopularBooksUseCase
   });
 
-  GetAllBooksUseCase getAllBooksUseCase;
+  GetMostPopularBooksUseCase getMostPopularBooksUseCase;
 
   final ValueNotifier<bool> isLoading = ValueNotifier(false);
   final ValueNotifier<List<BookCardState>> books = ValueNotifier([]);
@@ -20,7 +20,7 @@ class AllBooksViewModel {
 
     isLoading.value = true;
 
-    final newBooks = await getAllBooksUseCase.getAllBooks(page: page);
+    final newBooks = await getMostPopularBooksUseCase.getAllBooks(page: page);
     if (newBooks != null) {
       final pageOfBookCards = newBooks.results.map((b) => BookCardState.fromEntity(entity: b)).toList();
       books.value = books.value + pageOfBookCards;

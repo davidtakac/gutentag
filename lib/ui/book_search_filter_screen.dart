@@ -17,7 +17,7 @@ class BookSearchFilterScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async {
-        viewModel.search();
+        viewModel.loadNextPage();
         Navigator.of(context).pop();
         return true;
       },
@@ -48,7 +48,7 @@ class BookSearchFilterScreen extends StatelessWidget {
                           onSelected: (_) {
                             viewModel
                               ..toggleCopyrightOption(Copyright.yes)
-                              ..search();
+                              ..loadNextPage();
                           }),
                       const SizedBox(
                         width: 8,
@@ -61,7 +61,7 @@ class BookSearchFilterScreen extends StatelessWidget {
                           onSelected: (_) {
                             viewModel
                               ..toggleCopyrightOption(Copyright.no)
-                              ..search();
+                              ..loadNextPage();
                           }),
                       const SizedBox(
                         width: 8,
@@ -74,7 +74,7 @@ class BookSearchFilterScreen extends StatelessWidget {
                           onSelected: (_) {
                             viewModel
                               ..toggleCopyrightOption(Copyright.unknown)
-                              ..search();
+                              ..loadNextPage();
                           })
                     ],
                   );
@@ -95,10 +95,10 @@ class BookSearchFilterScreen extends StatelessWidget {
                   valueListenable: viewModel.authorAliveBetween,
                   builder: (context, values, child) {
                     return RangeSlider(
-                        min: BookSearchViewModel.authorAliveEarliest.toDouble(),
-                        max: BookSearchViewModel.authorAliveLatest.toDouble(),
-                        divisions: (BookSearchViewModel.authorAliveLatest -
-                                BookSearchViewModel.authorAliveEarliest)
+                        min: BookSearchViewModel.writtenStartMin.toDouble(),
+                        max: BookSearchViewModel.writtenEndMax.toDouble(),
+                        divisions: (BookSearchViewModel.writtenEndMax -
+                                BookSearchViewModel.writtenStartMin)
                             .round(),
                         labels: RangeLabels(
                           _formatYear(values.start.round(), context),
@@ -112,9 +112,9 @@ class BookSearchFilterScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(_formatYear(
-                        BookSearchViewModel.authorAliveEarliest, context)),
+                        BookSearchViewModel.writtenStartMin, context)),
                     Text(_formatYear(
-                        BookSearchViewModel.authorAliveLatest, context)),
+                        BookSearchViewModel.writtenEndMax, context)),
                   ],
                 )
               ],

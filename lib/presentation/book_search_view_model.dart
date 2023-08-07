@@ -5,31 +5,34 @@ import 'package:gutentag/domain/sort_options.dart';
 import 'package:gutentag/presentation/all_books_state.dart';
 
 class BookSearchViewModel {
-  final SearchBooksUseCase _searchBooksUseCase;
+  final SearchBooksUseCase searchBooksUseCase;
 
-  BookSearchViewModel({required SearchBooksUseCase searchBooksUseCase})
-      : _searchBooksUseCase = searchBooksUseCase;
+  BookSearchViewModel({required this.searchBooksUseCase});
 
   final sortOption = ValueNotifier(Sort.popular);
   final query = ValueNotifier("");
   final copyrightOptions = ValueNotifier(Copyright.values);
   final results = ValueNotifier<List<BookCardState>?>(null);
-  static const authorAliveEarliest = -3500;
-  static const authorAliveLatest = 2023;
+  static const writtenStartMin = -3500;
+  static const writtenEndMax = 2023;
   final authorAliveBetween = ValueNotifier(RangeValues(
-      authorAliveEarliest.toDouble(),
-      authorAliveLatest.toDouble())
+      writtenStartMin.toDouble(),
+      writtenEndMax.toDouble())
   );
-  final loading = ValueNotifier(false);
+  final isLoading = ValueNotifier(false);
   final topic = ValueNotifier("");
-  final ValueNotifier<List<String>> languageCodes = ValueNotifier([]);
+  final languageCodes = ValueNotifier(<String>[]);
+
+  int? _nextPage = 1;
 
   void setSortOption(Sort option) {
     sortOption.value = option;
+    _resetPagination();
   }
 
   void setSearchQuery(String query) {
     this.query.value = query;
+    _resetPagination();
   }
 
   void toggleCopyrightOption(Copyright option) {
@@ -38,14 +41,17 @@ class BookSearchViewModel {
     } else {
       copyrightOptions.value = [...copyrightOptions.value, option];
     }
+    _resetPagination();
   }
 
   void setAuthorAliveBetween(RangeValues values) {
     authorAliveBetween.value = values;
+    _resetPagination();
   }
 
   void setTopic(String topic) {
     this.topic.value = topic;
+    _resetPagination();
   }
 
   void toggleLanguage(String code) {
@@ -54,26 +60,40 @@ class BookSearchViewModel {
     } else {
       languageCodes.value = [...languageCodes.value, code];
     }
+    _resetPagination();
   }
 
   void setLanguages(List<String> codes) {
-    this.languageCodes.value = codes;
+    languageCodes.value = codes;
+    _resetPagination();
   }
 
-  void search() async {
-    loading.value = true;
-    final results = await _searchBooksUseCase.search(
+  void loadNextPage() async {
+    final page = _nextPage;
+    if (page == null || isLoading.value) return;
+
+    isLoading.value = true;
+
+    final newBooks = await searchBooksUseCase.search(
       query: query.value, 
       sortOption: sortOption.value,
       copyrightOptions: copyrightOptions.value,
-      authorAliveEarliest: authorAliveBetween.value.start.round(),
-      authorAliveLatest: authorAliveBetween.value.end.round(),
+      writtenStart: authorAliveBetween.value.start.round(),
+      writtenEnd: authorAliveBetween.value.end.round(),
       topic: topic.value,
-      languageCodes: languageCodes.value
+      languageCodes: languageCodes.value,
+      page: page
     );
-    loading.value = false;
-    if (results != null) {
-      this.results.value = results.map((e) => BookCardState.fromEntity(entity: e)).toList();
+    if (newBooks != null) {
+      final pageOfBookCards = newBooks.results.map((b) => BookCardState.fromEntity(entity: b)).toList();
+      results.value = [...?page == 1 ? null : results.value, ...pageOfBookCards];
+      _nextPage = newBooks.next ? page + 1 : null;
     }
+
+    isLoading.value = false;
+  }
+
+  void _resetPagination() {
+    _nextPage = 1;
   }
 }

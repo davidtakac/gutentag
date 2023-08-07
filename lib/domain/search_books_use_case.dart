@@ -8,21 +8,23 @@ class SearchBooksUseCase {
 
   final ApiService _apiService;
 
-  Future<List<Book>?> search({
+  Future<Books?> search({
     String query = "",
     Sort sortOption = Sort.popular,
     List<Copyright> copyrightOptions = Copyright.values,
-    int authorAliveEarliest = -3500,
-    int authorAliveLatest = 2023,
+    int writtenStart = -3500,
+    int writtenEnd = 2023,
     String topic = "",
     List<String> languageCodes = const [],
+    int page = 1
   }) => _apiService.searchBooks(
       query,
       sortOption,
       copyrightOptions,
-      authorAliveEarliest,
-      authorAliveLatest,
+      writtenStart,
+      writtenEnd,
       topic,
-      languageCodes
+      languageCodes,
+      page
   );
 }

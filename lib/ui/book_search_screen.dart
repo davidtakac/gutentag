@@ -19,6 +19,13 @@ class BookSearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textStyle = theme.textTheme.titleLarge;
+    final listController = ScrollController();
+    listController.addListener(() {
+      if (listController.position.atEdge && listController.position.pixels != 0) {
+        viewModel.loadNextPage();
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -30,8 +37,19 @@ class BookSearchScreen extends StatelessWidget {
             hintStyle: textStyle?.copyWith(color: theme.hintColor),
           ),
           textInputAction: TextInputAction.search,
-          onSubmitted: (_) => viewModel.search(),
+          onSubmitted: (_) => viewModel.loadNextPage(),
           onChanged: viewModel.setSearchQuery,
+        ),
+        bottom: PreferredSize(
+            preferredSize: const Size(0, 6),
+            child: ValueListenableBuilder(
+              valueListenable: viewModel.isLoading,
+              builder: (BuildContext context, bool isLoading, Widget? child) {
+                return isLoading
+                    ? const LinearProgressIndicator()
+                    : const SizedBox.shrink();
+              },
+            ),
         ),
         actions: [
           ValueListenableBuilder(
@@ -41,7 +59,7 @@ class BookSearchScreen extends StatelessWidget {
                   option: value,
                   onOptionSelected: (Sort option) {
                     viewModel.setSortOption(option);
-                    viewModel.search();
+                    viewModel.loadNextPage();
                   },
                 );
               }),
@@ -60,19 +78,12 @@ class BookSearchScreen extends StatelessWidget {
       body: Stack(
         alignment: AlignmentDirectional.topCenter,
         children: [
-          ValueListenableBuilder(
-            valueListenable: viewModel.loading,
-            builder: (BuildContext context, bool isLoading, Widget? child) {
-              return isLoading
-                  ? const LinearProgressIndicator()
-                  : const SizedBox.shrink();
-            },
-          ),
           Expanded(
             child: ValueListenableBuilder(
                 valueListenable: viewModel.results,
                 builder: (context, value, child) {
                   return ListView(
+                    controller: listController,
                     children: value == null || value.isEmpty
                         ? [
                       Padding(

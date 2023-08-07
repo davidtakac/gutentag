@@ -22,14 +22,15 @@ class ApiService {
     return BookResponse.fromJson(jsonDecode(response.body)).toBook();
   }
 
-  Future<List<Book>?> searchBooks(
+  Future<Books?> searchBooks(
       String query,
       Sort sortOption,
       List<Copyright> copyrightOptions,
       int authorAliveEarliest,
       int authorAliveLatest,
       String topic,
-      List<String> languageCodes
+      List<String> languageCodes,
+      int page
   ) async {
     final String sortOptionString;
     switch(sortOption) {
@@ -48,12 +49,13 @@ class ApiService {
         '?sort=$sortOptionString'
         '&search=$query'
         '&copyright=$copyrightOptionsString'
-        '&authorStartYear=$authorAliveEarliest'
-        '&authorEndYear=$authorAliveLatest'
+        '&author_year_start=$authorAliveEarliest'
+        '&author_year_end=$authorAliveLatest'
         '&topic=$topic'
         '${languageCodes.isEmpty ? '' : '&languages=${languageCodes.join(',')}'}'
+        '&page=$page'
     ));
     if (response.statusCode != 200) return null;
-    return BooksResponse.fromJson(jsonDecode(response.body)).toBooks().results;
+    return BooksResponse.fromJson(jsonDecode(response.body)).toBooks();
   }
 }

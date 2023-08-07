@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/data/api_service.dart';
 import 'package:gutentag/domain/get_all_books_use_case.dart';
+import 'package:gutentag/domain/search_books_use_case.dart';
 import 'package:gutentag/presentation/all_books_state.dart';
 import 'package:gutentag/presentation/all_books_view_model.dart';
 import 'package:gutentag/ui/book_card.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final viewModel = AllBooksViewModel(getAllBooksUseCase: GetAllBooksUseCase(apiService: ApiService()))..getNextPage();
+  final viewModel = AllBooksViewModel(getMostPopularBooksUseCase: GetMostPopularBooksUseCase(searchBooksUseCase: SearchBooksUseCase(apiService: ApiService())))..getNextPage();
 
   @override
   Widget build(BuildContext context) {
