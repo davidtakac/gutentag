@@ -1,4 +1,5 @@
 import 'package:gutentag/domain/books.dart';
+import 'package:gutentag/domain/language.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'books_response.g.dart';
@@ -62,7 +63,7 @@ class BookResponse {
     translators: translators.map((t) => t.toPerson()).toList(), 
     subjects: subjects, 
     bookshelves: bookshelves, 
-    languages: languages, 
+    languages: languages.map((code) => allLanguages.firstWhere((language) => language.code == code)).toList(),
     copyright: copyright, 
     downloads: formats.toDownloads(), 
     downloadCount: downloadCount

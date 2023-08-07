@@ -35,7 +35,7 @@ class _LanguagePickerDialogState extends State<LanguagePickerDialog> {
       title: Text(AppLocalizations.of(context)!.search_filter_title_languages),
       content: SingleChildScrollView(
         child: ListBody(
-          children: languages.map((e) {
+          children: allLanguages.map((e) {
             return InkWell(
               onTap: () {
                 setState(() {

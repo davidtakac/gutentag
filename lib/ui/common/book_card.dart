@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/ui/common/book_card_state.dart';
 import 'package:gutentag/ui/single/single_book_screen.dart';
-import 'package:gutentag/ui/common/language_mapping.dart';
 
 class BookCard extends StatelessWidget {
   final BookCardState cardState;
@@ -51,7 +50,7 @@ class BookCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        cardState.languageCodes.map((code) => getLanguageName(context, code) ?? code).join(', '), 
+                        cardState.languages,
                         style: theme.textTheme.titleSmall,
                       ),
                     ),

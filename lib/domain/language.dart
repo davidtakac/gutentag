@@ -5,7 +5,7 @@ class Language {
   Language({required this.code, required this.name});
 }
 
-late List<Language> languages = [
+late List<Language> allLanguages = [
   { "code": "aa", "name": "Afar" },
   { "code": "ab", "name": "Abkhazian" },
   { "code": "ae", "name": "Avestan" },

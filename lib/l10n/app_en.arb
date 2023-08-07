@@ -1,7 +1,5 @@
 {
   "home_title": "Most popular",
-  "lang_en": "English",
-  "lang_tl": "Tagalog",
   "book_title": "Book details",
   "translators_template": "Translators: {translators}",
   "translators_none": "Original language",

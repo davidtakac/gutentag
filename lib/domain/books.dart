@@ -1,3 +1,5 @@
+import 'package:gutentag/domain/language.dart';
+
 class Books {
   final bool next;
   final List<Book> results;
@@ -16,7 +18,7 @@ class Book {
   final List<Person> translators;
   final List<String> subjects;
   final List<String> bookshelves;
-  final List<String> languages;
+  final List<Language> languages;
   final bool copyright;
   final Downloads downloads;
   final int downloadCount;
