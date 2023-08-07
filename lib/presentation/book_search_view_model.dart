@@ -22,6 +22,7 @@ class BookSearchViewModel {
   );
   final loading = ValueNotifier(false);
   final topic = ValueNotifier("");
+  final ValueNotifier<List<String>> languageCodes = ValueNotifier([]);
 
   void setSortOption(Sort option) {
     sortOption.value = option;
@@ -47,6 +48,18 @@ class BookSearchViewModel {
     this.topic.value = topic;
   }
 
+  void toggleLanguage(String code) {
+    if (languageCodes.value.any((element) => element == code)) {
+      languageCodes.value = [...languageCodes.value]..remove(code);
+    } else {
+      languageCodes.value = [...languageCodes.value, code];
+    }
+  }
+
+  void setLanguages(List<String> codes) {
+    this.languageCodes.value = codes;
+  }
+
   void search() async {
     loading.value = true;
     final results = await _searchBooksUseCase.search(
@@ -55,12 +68,12 @@ class BookSearchViewModel {
       copyrightOptions: copyrightOptions.value,
       authorAliveEarliest: authorAliveBetween.value.start.round(),
       authorAliveLatest: authorAliveBetween.value.end.round(),
-      topic: topic.value
+      topic: topic.value,
+      languageCodes: languageCodes.value
     );
     loading.value = false;
     if (results != null) {
-      this.results.value = results
-          .map((e) => BookCardState.fromEntity(entity: e)).toList();
+      this.results.value = results.map((e) => BookCardState.fromEntity(entity: e)).toList();
     }
   }
 }

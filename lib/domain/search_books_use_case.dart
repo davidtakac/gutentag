@@ -15,12 +15,14 @@ class SearchBooksUseCase {
     int authorAliveEarliest = -3500,
     int authorAliveLatest = 2023,
     String topic = "",
+    List<String> languageCodes = const [],
   }) => _apiService.searchBooks(
       query,
       sortOption,
       copyrightOptions,
       authorAliveEarliest,
       authorAliveLatest,
-      topic
+      topic,
+      languageCodes
   );
 }

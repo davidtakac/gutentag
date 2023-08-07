@@ -4,10 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LanguagePickerDialog extends StatefulWidget {
   final VoidCallback onCancelTap;
   final Function(List<String>) onSubmit;
+  final List<String> preselectedCodes;
 
   const LanguagePickerDialog({
     required this.onCancelTap,
     required this.onSubmit,
+    this.preselectedCodes = const [],
     super.key
   });
 
@@ -17,6 +19,12 @@ class LanguagePickerDialog extends StatefulWidget {
 
 class _LanguagePickerDialogState extends State<LanguagePickerDialog> {
   final List<String> selectedCodes = [];
+
+  @override
+  void initState() {
+    selectedCodes.addAll(widget.preselectedCodes);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

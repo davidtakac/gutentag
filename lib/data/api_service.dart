@@ -29,6 +29,7 @@ class ApiService {
       int authorAliveEarliest,
       int authorAliveLatest,
       String topic,
+      List<String> languageCodes
   ) async {
     final String sortOptionString;
     switch(sortOption) {
@@ -42,8 +43,16 @@ class ApiService {
         case Copyright.no: return 'false';
         default: return 'null';
       }
-    }).join(",");
-    final response = await http.get(Uri.parse('$_url?sort=$sortOptionString&search=$query&copyright=$copyrightOptionsString&authorStartYear=$authorAliveEarliest&authorEndYear=$authorAliveLatest&topic=$topic'));
+    }).join(',');
+    final response = await http.get(Uri.parse('$_url'
+        '?sort=$sortOptionString'
+        '&search=$query'
+        '&copyright=$copyrightOptionsString'
+        '&authorStartYear=$authorAliveEarliest'
+        '&authorEndYear=$authorAliveLatest'
+        '&topic=$topic'
+        '${languageCodes.isEmpty ? '' : '&languages=${languageCodes.join(',')}'}'
+    ));
     if (response.statusCode != 200) return null;
     return BooksResponse.fromJson(jsonDecode(response.body)).toBooks().results;
   }

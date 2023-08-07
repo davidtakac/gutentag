@@ -147,21 +147,40 @@ class BookSearchFilterScreen extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            FilledButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => LanguagePickerDialog(
-                      onCancelTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      onSubmit: (codes) {
-                        print(codes);
-                      },
-                    )
-                );
-              },
-              child: Text("TODO")
+            ValueListenableBuilder(
+                valueListenable: viewModel.languageCodes,
+                builder: (context, value, child) {
+                  return Wrap(
+                    spacing: 8,
+                    children: [
+                      ...value.isEmpty
+                        ? [const FilterChip(label: Text('All'), selected: true, onSelected: null,)]
+                        : value.map((e) => FilterChip(
+                            label: Text(e),
+                            selected: true,
+                            onSelected: (_) => viewModel.toggleLanguage(e),
+                          )).toList(),
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => LanguagePickerDialog(
+                                  preselectedCodes: value,
+                                  onCancelTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  onSubmit: (languageCodes) {
+                                    viewModel.setLanguages(languageCodes);
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                            );
+                          },
+                          icon: const Icon(Icons.edit)
+                      )
+                    ],
+                  );
+                }
             ),
           ],
         ),
