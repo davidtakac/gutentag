@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/data/api_service.dart';
 import 'package:gutentag/domain/use_case/get_single_book_use_case.dart';
-import 'package:gutentag/presentation/single_book_state.dart';
-import 'package:gutentag/presentation/single_book_view_model.dart';
+import 'package:gutentag/ui/single/single_book_state.dart';
+import 'package:gutentag/ui/single/single_book_view_model.dart';
 import 'package:gutentag/ui/webview_screen.dart';
 
 class BookScreen extends StatelessWidget {

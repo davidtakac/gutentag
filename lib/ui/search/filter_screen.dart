@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/domain/copyright.dart';
-import 'package:gutentag/presentation/search_view_model.dart';
-import 'package:gutentag/ui/language_picker_dialog.dart';
+import 'package:gutentag/ui/search/search_view_model.dart';
+import 'package:gutentag/ui/search/language_picker_dialog.dart';
 
-class BookSearchFilterScreen extends StatelessWidget {
-  BookSearchFilterScreen({required this.viewModel, super.key}) {
+class FilterScreen extends StatelessWidget {
+  FilterScreen({required this.viewModel, super.key}) {
     topicController.text = viewModel.topic.value;
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gutentag/domain/copyright.dart';
 import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/domain/sort.dart';
-import 'package:gutentag/presentation/book_card_state.dart';
+import 'package:gutentag/ui/common/book_card_state.dart';
 
 class SearchViewModel {
   final SearchUseCase searchBooksUseCase;

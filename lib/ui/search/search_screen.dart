@@ -3,9 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/data/api_service.dart';
 import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/domain/sort.dart';
-import 'package:gutentag/presentation/search_view_model.dart';
-import 'package:gutentag/ui/book_card.dart';
-import 'package:gutentag/ui/book_search_filter_screen.dart';
+import 'package:gutentag/ui/search/search_view_model.dart';
+import 'package:gutentag/ui/common/book_card.dart';
+import 'package:gutentag/ui/search/filter_screen.dart';
 
 class BookSearchScreen extends StatelessWidget {
   BookSearchScreen({super.key}) {
@@ -66,7 +66,7 @@ class BookSearchScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return BookSearchFilterScreen(
+                return FilterScreen(
                   viewModel: viewModel,
                 );
               }));

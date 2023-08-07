@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/presentation/book_card_state.dart';
-import 'package:gutentag/ui/single_book_screen.dart';
-import 'package:gutentag/ui/language_mapping.dart';
+import 'package:gutentag/ui/common/book_card_state.dart';
+import 'package:gutentag/ui/single/single_book_screen.dart';
+import 'package:gutentag/ui/common/language_mapping.dart';
 
 class BookCard extends StatelessWidget {
   final BookCardState cardState;
