@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/search_use_case.dart';
+import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/presentation/book_card_state.dart';
 import 'package:gutentag/presentation/search_view_model.dart';
 import 'package:gutentag/ui/book_card.dart';

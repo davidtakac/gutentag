@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/domain/get_single_book_use_case.dart';
+import 'package:gutentag/domain/use_case/get_single_book_use_case.dart';
 import 'package:gutentag/presentation/single_book_state.dart';
 
 class SingleBookViewModel {

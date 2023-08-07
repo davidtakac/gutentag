@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/domain/copyright.dart';
-import 'package:gutentag/domain/search_use_case.dart';
+import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/domain/sort.dart';
 import 'package:gutentag/presentation/book_card_state.dart';
 
