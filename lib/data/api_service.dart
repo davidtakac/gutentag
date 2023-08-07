@@ -9,13 +9,6 @@ import 'package:http/http.dart' as http;
 class ApiService {
   final _url = 'https://gutendex.com/books';
 
-  Future<Books?> getAllBooks({int page = 1}) async {
-    if (page < 1) throw Exception('Page must be greater than 0.');
-    final response = await http.get(Uri.parse('$_url?page=$page'));
-    if (response.statusCode != 200) return null;
-    return BooksResponse.fromJson(jsonDecode(response.body)).toBooks();
-  }
-
   Future<Book?> getBook({required String id}) async {
     final response = await http.get(Uri.parse('$_url/$id'));
     if (response.statusCode != 200) return null;
@@ -32,30 +25,38 @@ class ApiService {
       List<String> languageCodes,
       int page
   ) async {
-    final String sortOptionString;
-    switch(sortOption) {
-      case Sort.ascending: sortOptionString = 'ascending';
-      case Sort.descending: sortOptionString = 'descending';
-      default: sortOptionString = 'popular';
-    }
-    final String copyrightOptionsString = copyrightOptions.map((e) { 
-      switch(e) {
-        case Copyright.yes: return 'true';
-        case Copyright.no: return 'false';
-        default: return 'null';
-      }
-    }).join(',');
     final response = await http.get(Uri.parse('$_url'
-        '?sort=$sortOptionString'
+        '?sort=${_mapSortToServerString(sortOption)}'
         '&search=$query'
-        '&copyright=$copyrightOptionsString'
+        '&copyright=${_mapCopyrightToServerString(copyrightOptions)}'
         '&author_year_start=$authorAliveEarliest'
         '&author_year_end=$authorAliveLatest'
         '&topic=$topic'
         '${languageCodes.isEmpty ? '' : '&languages=${languageCodes.join(',')}'}'
         '&page=$page'
     ));
-    if (response.statusCode != 200) return null;
-    return BooksResponse.fromJson(jsonDecode(response.body)).toBooks();
+    if (response.statusCode != 200) {
+      return null;
+    } else {
+      return BooksResponse.fromJson(jsonDecode(response.body)).toBooks();
+    }
+  }
+
+  String _mapSortToServerString(Sort sort) {
+    switch(sort) {
+      case Sort.ascending: return 'ascending';
+      case Sort.descending: return 'descending';
+      default: return 'popular';
+    }
+  }
+
+  String _mapCopyrightToServerString(List<Copyright> copyrightOptions) {
+    return copyrightOptions.map((e) {
+      switch(e) {
+        case Copyright.yes: return 'true';
+        case Copyright.no: return 'false';
+        default: return 'null';
+      }
+    }).join(',');
   }
 }
