@@ -7,7 +7,8 @@ import 'package:gutentag/presentation/all_books_state.dart';
 class BookSearchViewModel {
   final SearchBooksUseCase _searchBooksUseCase;
 
-  BookSearchViewModel({required SearchBooksUseCase searchBooksUseCase}) : _searchBooksUseCase = searchBooksUseCase;
+  BookSearchViewModel({required SearchBooksUseCase searchBooksUseCase})
+      : _searchBooksUseCase = searchBooksUseCase;
 
   final sortOption = ValueNotifier(Sort.popular);
   final query = ValueNotifier("");
@@ -15,7 +16,10 @@ class BookSearchViewModel {
   final results = ValueNotifier<List<BookCardState>?>(null);
   static const authorAliveEarliest = -3500;
   static const authorAliveLatest = 2023;
-  final authorAliveBetween = ValueNotifier(RangeValues(authorAliveEarliest.toDouble(), authorAliveLatest.toDouble()));
+  final authorAliveBetween = ValueNotifier(RangeValues(
+      authorAliveEarliest.toDouble(),
+      authorAliveLatest.toDouble())
+  );
   final loading = ValueNotifier(false);
   final topic = ValueNotifier("");
 
@@ -55,7 +59,8 @@ class BookSearchViewModel {
     );
     loading.value = false;
     if (results != null) {
-      this.results.value = results.map((e) => BookCardState.fromEntity(entity: e)).toList();
+      this.results.value = results
+          .map((e) => BookCardState.fromEntity(entity: e)).toList();
     }
   }
 }

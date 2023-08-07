@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/domain/copyright_options.dart';
 import 'package:gutentag/presentation/book_search_view_model.dart';
+import 'package:gutentag/ui/language_picker_dialog.dart';
 
 class BookSearchFilterScreen extends StatelessWidget {
   BookSearchFilterScreen({required this.viewModel, super.key}) {
@@ -135,7 +136,33 @@ class BookSearchFilterScreen extends StatelessWidget {
                 hintText: AppLocalizations.of(context)!.search_filter_hint_topic,
               ),
               onChanged: viewModel.setTopic,
-            )
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              AppLocalizations.of(context)!.search_filter_title_languages,
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            FilledButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => LanguagePickerDialog(
+                      onCancelTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      onSubmit: (codes) {
+                        print(codes);
+                      },
+                    )
+                );
+              },
+              child: Text("TODO")
+            ),
           ],
         ),
       ),

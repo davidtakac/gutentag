@@ -25,5 +25,8 @@
   "search_filter_label_bc": "{year} BC",
   "search_filter_label_ad": "{year} AD",
   "search_filter_title_topic": "Topic",
-  "search_filter_hint_topic": "Adventure, drama..."
+  "search_filter_hint_topic": "Adventure, drama...",
+  "search_filter_title_languages": "Book languages",
+  "search_filter_btn_languages_cancel": "Cancel",
+  "search_filter_btn_languages_ok": "OK"
 }
