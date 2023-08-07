@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/get_all_books_use_case.dart';
-import 'package:gutentag/domain/search_books_use_case.dart';
-import 'package:gutentag/presentation/all_books_state.dart';
-import 'package:gutentag/presentation/all_books_view_model.dart';
+import 'package:gutentag/domain/search_use_case.dart';
+import 'package:gutentag/presentation/book_card_state.dart';
+import 'package:gutentag/presentation/search_view_model.dart';
 import 'package:gutentag/ui/book_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gutentag/ui/book_search_screen.dart';
+import 'package:gutentag/ui/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key,});
@@ -16,14 +15,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final viewModel = AllBooksViewModel(getMostPopularBooksUseCase: GetMostPopularBooksUseCase(searchBooksUseCase: SearchBooksUseCase(apiService: ApiService())))..getNextPage();
+  final viewModel = SearchViewModel(searchBooksUseCase: SearchUseCase(apiService: ApiService()))..loadNextPage();
 
   @override
   Widget build(BuildContext context) {
     final listController = ScrollController();
     listController.addListener(() {
       if (listController.position.atEdge && listController.position.pixels != 0) {
-        viewModel.getNextPage();
+        viewModel.loadNextPage();
       }
     });
 
@@ -46,21 +45,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           ValueListenableBuilder(
-            valueListenable: viewModel.books,
-            builder: (BuildContext context, List<BookCardState> value, Widget? child) {
-              return ListView.builder(
+            valueListenable: viewModel.results,
+            builder: (BuildContext context, List<BookCardState>? value, Widget? child) {
+              return ListView(
                   controller: listController,
-                  itemCount: value.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      16, 
-                      index == 0 ? 16 : 8, 
-                      16, 
-                      index == value.length - 1 ? 16 : 0
-                    ),
-                    child: BookCard(cardState: value[index]),
-                ),
-              ).build(context);
+                  children: [
+                    ...value?.map((e) => Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                      child: BookCard(cardState: e),
+                    )).toList() ?? [],
+                    const SizedBox(height: 16,)
+                  ],
+              );
             }
           ),
           Center(

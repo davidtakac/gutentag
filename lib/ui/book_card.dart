@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/presentation/all_books_state.dart';
-import 'package:gutentag/ui/book_screen.dart';
+import 'package:gutentag/presentation/book_card_state.dart';
+import 'package:gutentag/ui/single_book_screen.dart';
 import 'package:gutentag/ui/language_mapping.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({
-    super.key,
-    required this.cardState,
-  });
-
   final BookCardState cardState;
+
+  const BookCard({super.key, required this.cardState});
 
   @override
   Widget build(BuildContext context) {

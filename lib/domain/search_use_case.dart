@@ -1,10 +1,10 @@
 import 'package:gutentag/data/api_service.dart';
 import 'package:gutentag/domain/books.dart';
-import 'package:gutentag/domain/copyright_options.dart';
-import 'package:gutentag/domain/sort_options.dart';
+import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/sort.dart';
 
-class SearchBooksUseCase {
-  const SearchBooksUseCase({required ApiService apiService}) : _apiService = apiService;
+class SearchUseCase {
+  const SearchUseCase({required ApiService apiService}) : _apiService = apiService;
 
   final ApiService _apiService;
 

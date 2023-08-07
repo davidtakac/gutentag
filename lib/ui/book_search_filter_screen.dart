@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gutentag/domain/copyright_options.dart';
-import 'package:gutentag/presentation/book_search_view_model.dart';
+import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/presentation/search_view_model.dart';
 import 'package:gutentag/ui/language_picker_dialog.dart';
 
 class BookSearchFilterScreen extends StatelessWidget {
@@ -9,7 +9,7 @@ class BookSearchFilterScreen extends StatelessWidget {
     topicController.text = viewModel.topic.value;
   }
 
-  final BookSearchViewModel viewModel;
+  final SearchViewModel viewModel;
   final topicController = TextEditingController();
 
   @override
@@ -95,10 +95,10 @@ class BookSearchFilterScreen extends StatelessWidget {
                   valueListenable: viewModel.authorAliveBetween,
                   builder: (context, values, child) {
                     return RangeSlider(
-                        min: BookSearchViewModel.writtenStartMin.toDouble(),
-                        max: BookSearchViewModel.writtenEndMax.toDouble(),
-                        divisions: (BookSearchViewModel.writtenEndMax -
-                                BookSearchViewModel.writtenStartMin)
+                        min: SearchViewModel.writtenStartMin.toDouble(),
+                        max: SearchViewModel.writtenEndMax.toDouble(),
+                        divisions: (SearchViewModel.writtenEndMax -
+                                SearchViewModel.writtenStartMin)
                             .round(),
                         labels: RangeLabels(
                           _formatYear(values.start.round(), context),
@@ -112,9 +112,9 @@ class BookSearchFilterScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(_formatYear(
-                        BookSearchViewModel.writtenStartMin, context)),
+                        SearchViewModel.writtenStartMin, context)),
                     Text(_formatYear(
-                        BookSearchViewModel.writtenEndMax, context)),
+                        SearchViewModel.writtenEndMax, context)),
                   ],
                 )
               ],

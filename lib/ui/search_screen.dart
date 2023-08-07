@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/search_books_use_case.dart';
-import 'package:gutentag/domain/sort_options.dart';
-import 'package:gutentag/presentation/book_search_view_model.dart';
+import 'package:gutentag/domain/search_use_case.dart';
+import 'package:gutentag/domain/sort.dart';
+import 'package:gutentag/presentation/search_view_model.dart';
 import 'package:gutentag/ui/book_card.dart';
 import 'package:gutentag/ui/book_search_filter_screen.dart';
 
@@ -12,7 +12,7 @@ class BookSearchScreen extends StatelessWidget {
     textController.text = viewModel.query.value;
   }
 
-  final viewModel = BookSearchViewModel(searchBooksUseCase: SearchBooksUseCase(apiService: ApiService()));
+  final viewModel = SearchViewModel(searchBooksUseCase: SearchUseCase(apiService: ApiService()));
   final textController = TextEditingController();
 
   @override

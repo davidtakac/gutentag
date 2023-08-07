@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/get_book_use_case.dart';
-import 'package:gutentag/presentation/book_state.dart';
-import 'package:gutentag/presentation/book_view_model.dart';
+import 'package:gutentag/domain/get_single_book_use_case.dart';
+import 'package:gutentag/presentation/single_book_state.dart';
+import 'package:gutentag/presentation/single_book_view_model.dart';
 import 'package:gutentag/ui/webview_screen.dart';
 
 class BookScreen extends StatelessWidget {
   final String _bookId;
-  final viewModel = BookViewModel(getBookUseCase: GetBookUseCase(apiService: ApiService()));
+  final viewModel = SingleBookViewModel(getBookUseCase: GetSingleBookUseCase(apiService: ApiService()));
   static const platform = MethodChannel('com.example.gutentag/download_manager');
 
   BookScreen({
@@ -50,7 +50,7 @@ class BookScreen extends StatelessWidget {
 
   List<Widget> _buildScreenList({
     required BuildContext context,
-    required BookState state,
+    required SingleBookState state,
   }) {
     List<Widget> result = [
       BookHeader(

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:gutentag/data/books_response.dart';
 import 'package:gutentag/domain/books.dart';
-import 'package:gutentag/domain/copyright_options.dart';
-import 'package:gutentag/domain/sort_options.dart';
+import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/sort.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {

@@ -1,4 +1,4 @@
-class BookState {
+class SingleBookState {
   final String title;
   final String? coverUrl;
   final String authors;
@@ -10,7 +10,7 @@ class BookState {
   final String? kindleUrl; 
   final String? plainTextUrl;
 
-  const BookState({
+  const SingleBookState({
     required this.title,
     required this.coverUrl,
     required this.authors,
@@ -33,7 +33,7 @@ class BookState {
 
   @override
   bool operator ==(Object other) =>
-    other is BookState 
+    other is SingleBookState
       && other.title == title && other.authors == authors 
       && other.coverUrl == coverUrl && other.translators == translators 
       && other.subjects == subjects && other.downloadCount == downloadCount

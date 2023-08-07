@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/domain/copyright_options.dart';
-import 'package:gutentag/domain/search_books_use_case.dart';
-import 'package:gutentag/domain/sort_options.dart';
-import 'package:gutentag/presentation/all_books_state.dart';
+import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/search_use_case.dart';
+import 'package:gutentag/domain/sort.dart';
+import 'package:gutentag/presentation/book_card_state.dart';
 
-class BookSearchViewModel {
-  final SearchBooksUseCase searchBooksUseCase;
+class SearchViewModel {
+  final SearchUseCase searchBooksUseCase;
 
-  BookSearchViewModel({required this.searchBooksUseCase});
+  SearchViewModel({required this.searchBooksUseCase});
 
   final sortOption = ValueNotifier(Sort.popular);
   final query = ValueNotifier("");

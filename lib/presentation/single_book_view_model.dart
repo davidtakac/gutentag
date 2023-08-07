@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/domain/get_book_use_case.dart';
-import 'package:gutentag/presentation/book_state.dart';
+import 'package:gutentag/domain/get_single_book_use_case.dart';
+import 'package:gutentag/presentation/single_book_state.dart';
 
-class BookViewModel {
-  BookViewModel({
-    required GetBookUseCase getBookUseCase,
-  }) : _getBookUseCase = getBookUseCase;
+class SingleBookViewModel {
+  SingleBookViewModel({required this.getBookUseCase,});
 
-  final GetBookUseCase _getBookUseCase;
-  ValueNotifier<BookState?> state = ValueNotifier(null);
+  final GetSingleBookUseCase getBookUseCase;
+  ValueNotifier<SingleBookState?> state = ValueNotifier(null);
 
   void getBook(String id) async {
     if (state.value != null) return;
 
-    final details = await _getBookUseCase.getBook(id: id);
+    final details = await getBookUseCase.getBook(id: id);
     if (details == null) return;
 
-    state.value = BookState(
+    state.value = SingleBookState(
       title: details.title, 
       coverUrl: details.coverUrl,
       authors: details.authors.map((a) => a.fullName).join(', '), 
