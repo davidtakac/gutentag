@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/language.dart';
 import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/domain/sort.dart';
 import 'package:gutentag/ui/common/book_card_state.dart';
@@ -21,7 +22,7 @@ class SearchViewModel {
   );
   final isLoading = ValueNotifier(false);
   final topic = ValueNotifier("");
-  final languageCodes = ValueNotifier(<String>[]);
+  final languages = ValueNotifier(<Language>[]);
 
   int? _nextPage = 1;
 
@@ -54,17 +55,17 @@ class SearchViewModel {
     _resetPagination();
   }
 
-  void toggleLanguage(String code) {
-    if (languageCodes.value.any((element) => element == code)) {
-      languageCodes.value = [...languageCodes.value]..remove(code);
+  void toggleLanguage(Language language) {
+    if (languages.value.any((element) => element == language)) {
+      languages.value = [...languages.value]..remove(language);
     } else {
-      languageCodes.value = [...languageCodes.value, code];
+      languages.value = [...languages.value, language];
     }
     _resetPagination();
   }
 
-  void setLanguages(List<String> codes) {
-    languageCodes.value = codes;
+  void setLanguages(List<Language> languages) {
+    this.languages.value = languages;
     _resetPagination();
   }
 
@@ -81,7 +82,7 @@ class SearchViewModel {
       writtenStart: authorAliveBetween.value.start.round(),
       writtenEnd: authorAliveBetween.value.end.round(),
       topic: topic.value,
-      languageCodes: languageCodes.value,
+      languages: languages.value,
       page: page
     );
     if (newBooks != null) {

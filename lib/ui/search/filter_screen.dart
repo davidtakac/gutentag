@@ -148,7 +148,7 @@ class FilterScreen extends StatelessWidget {
               height: 8,
             ),
             ValueListenableBuilder(
-                valueListenable: viewModel.languageCodes,
+                valueListenable: viewModel.languages,
                 builder: (context, value, child) {
                   return Wrap(
                     spacing: 8,
@@ -156,7 +156,7 @@ class FilterScreen extends StatelessWidget {
                       ...value.isEmpty
                         ? [const FilterChip(label: Text('All'), selected: true, onSelected: null,)]
                         : value.map((e) => FilterChip(
-                            label: Text(e),
+                            label: Text(e.name),
                             selected: true,
                             onSelected: (_) => viewModel.toggleLanguage(e),
                           )).toList(),
@@ -165,7 +165,7 @@ class FilterScreen extends StatelessWidget {
                             showDialog(
                                 context: context,
                                 builder: (context) => LanguagePickerDialog(
-                                  preselectedCodes: value,
+                                  preselectedLanguages: value,
                                   onCancelTap: () {
                                     Navigator.of(context).pop();
                                   },

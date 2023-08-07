@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gutentag/data/books_response.dart';
 import 'package:gutentag/domain/books.dart';
 import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/language.dart';
 import 'package:gutentag/domain/sort.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,17 +23,17 @@ class ApiService {
       int authorAliveEarliest,
       int authorAliveLatest,
       String topic,
-      List<String> languageCodes,
+      List<Language> languages,
       int page
   ) async {
     final response = await http.get(Uri.parse('$_url'
         '?sort=${_mapSortToServerString(sortOption)}'
         '&search=$query'
-        '&copyright=${_mapCopyrightToServerString(copyrightOptions)}'
+        '&copyright=${_mapCopyrightListToServerString(copyrightOptions)}'
         '&author_year_start=$authorAliveEarliest'
         '&author_year_end=$authorAliveLatest'
         '&topic=$topic'
-        '${languageCodes.isEmpty ? '' : '&languages=${languageCodes.join(',')}'}'
+        '${languages.isEmpty ? '' : '&languages=${_mapLanguageListToServerString(languages)}'}'
         '&page=$page'
     ));
     if (response.statusCode != 200) {
@@ -50,7 +51,7 @@ class ApiService {
     }
   }
 
-  String _mapCopyrightToServerString(List<Copyright> copyrightOptions) {
+  String _mapCopyrightListToServerString(List<Copyright> copyrightOptions) {
     return copyrightOptions.map((e) {
       switch(e) {
         case Copyright.yes: return 'true';
@@ -58,5 +59,9 @@ class ApiService {
         default: return 'null';
       }
     }).join(',');
+  }
+
+  String _mapLanguageListToServerString(List<Language> languages) {
+    return languages.map((e) => e.code).join(',');
   }
 }

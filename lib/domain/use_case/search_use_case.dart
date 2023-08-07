@@ -1,6 +1,7 @@
 import 'package:gutentag/data/api_service.dart';
 import 'package:gutentag/domain/books.dart';
 import 'package:gutentag/domain/copyright.dart';
+import 'package:gutentag/domain/language.dart';
 import 'package:gutentag/domain/sort.dart';
 
 class SearchUseCase {
@@ -15,7 +16,7 @@ class SearchUseCase {
     int writtenStart = -3500,
     int writtenEnd = 2023,
     String topic = "",
-    List<String> languageCodes = const [],
+    List<Language> languages = const [],
     int page = 1
   }) => _apiService.searchBooks(
       query,
@@ -24,7 +25,7 @@ class SearchUseCase {
       writtenStart,
       writtenEnd,
       topic,
-      languageCodes,
+      languages,
       page
   );
 }
