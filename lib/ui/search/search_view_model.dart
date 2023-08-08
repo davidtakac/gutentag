@@ -10,19 +10,17 @@ class SearchViewModel {
 
   SearchViewModel({required this.searchBooksUseCase});
 
+  String _query = "";
   final sortOption = ValueNotifier(Sort.popular);
-  final query = ValueNotifier("");
   final copyrightOptions = ValueNotifier(Copyright.values);
-  final results = ValueNotifier<List<BookCardState>?>(null);
   static const writtenStartMin = -3500;
   static const writtenEndMax = 2023;
-  final authorAliveBetween = ValueNotifier(RangeValues(
-      writtenStartMin.toDouble(),
-      writtenEndMax.toDouble())
-  );
-  final isLoading = ValueNotifier(false);
+  final authorAliveBetween = ValueNotifier(const MapEntry(writtenStartMin, writtenEndMax));
   final topic = ValueNotifier("");
   final languages = ValueNotifier(<Language>[]);
+
+  final results = ValueNotifier<List<BookCardState>?>(null);
+  final isLoading = ValueNotifier(false);
 
   int? _nextPage = 1;
 
@@ -31,9 +29,13 @@ class SearchViewModel {
     _resetPagination();
   }
 
-  void setSearchQuery(String query) {
-    this.query.value = query;
+  set query(String value) {
+    _query = value;
     _resetPagination();
+  }
+
+  String get query {
+    return _query;
   }
 
   void toggleCopyrightOption(Copyright option) {
@@ -45,8 +47,8 @@ class SearchViewModel {
     _resetPagination();
   }
 
-  void setAuthorAliveBetween(RangeValues values) {
-    authorAliveBetween.value = values;
+  void setAuthorAliveBetween(int start, int end) {
+    authorAliveBetween.value = MapEntry(start, end);
     _resetPagination();
   }
 
@@ -76,11 +78,11 @@ class SearchViewModel {
     isLoading.value = true;
 
     final newBooks = await searchBooksUseCase.search(
-      query: query.value, 
+      query: _query,
       sortOption: sortOption.value,
       copyrightOptions: copyrightOptions.value,
-      writtenStart: authorAliveBetween.value.start.round(),
-      writtenEnd: authorAliveBetween.value.end.round(),
+      writtenStart: authorAliveBetween.value.key,
+      writtenEnd: authorAliveBetween.value.value,
       topic: topic.value,
       languages: languages.value,
       page: page

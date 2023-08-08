@@ -85,11 +85,12 @@ class FilterScreen extends StatelessWidget {
                                 SearchViewModel.writtenStartMin)
                             .round(),
                         labels: RangeLabels(
-                          _formatYear(values.start.round(), context),
-                          _formatYear(values.end.round(), context),
+                          _formatYear(values.key, context),
+                          _formatYear(values.value, context),
                         ),
-                        values: values,
-                        onChanged: viewModel.setAuthorAliveBetween);
+                        values: RangeValues(values.key.toDouble(), values.value.toDouble()),
+                        onChanged: (newValues) => viewModel.setAuthorAliveBetween(newValues.start.round(), newValues.end.round())
+                    );
                   },
                 ),
                 Row(

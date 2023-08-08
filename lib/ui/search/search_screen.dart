@@ -9,7 +9,7 @@ import 'package:gutentag/ui/search/filter_screen.dart';
 
 class BookSearchScreen extends StatelessWidget {
   BookSearchScreen({super.key}) {
-    textController.text = viewModel.query.value;
+    textController.text = viewModel.query;
   }
 
   final viewModel = SearchViewModel(searchBooksUseCase: SearchUseCase(apiService: ApiService()));
@@ -38,7 +38,7 @@ class BookSearchScreen extends StatelessWidget {
           ),
           textInputAction: TextInputAction.search,
           onSubmitted: (_) => viewModel.loadNextPage(),
-          onChanged: viewModel.setSearchQuery,
+          onChanged: (query) => viewModel.query = query,
         ),
         bottom: PreferredSize(
             preferredSize: const Size(0, 6),
