@@ -26,5 +26,6 @@
   "search_filter_hint_topic": "Adventure",
   "search_filter_title_languages": "Book languages",
   "search_filter_btn_languages_cancel": "Cancel",
-  "search_filter_btn_languages_ok": "OK"
+  "search_filter_btn_languages_ok": "OK",
+  "search_filter_label_languages_all": "All"
 }
