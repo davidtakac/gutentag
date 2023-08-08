@@ -102,4 +102,13 @@ class SearchViewModel {
   void _resetPagination() {
     _nextPage = 1;
   }
+
+  void dispose() {
+    sortOption.dispose();
+    copyrightOptions.dispose();
+    languages.dispose();
+    writtenBetween.dispose();
+    results.dispose();
+    isLoading.dispose();
+  }
 }

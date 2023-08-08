@@ -34,6 +34,12 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   @override
+  void dispose() {
+    viewModel.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.book_title),),

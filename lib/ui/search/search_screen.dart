@@ -39,6 +39,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   void dispose() {
     textController.dispose();
     scrollController.dispose();
+    viewModel.dispose();
     super.dispose();
   }
 

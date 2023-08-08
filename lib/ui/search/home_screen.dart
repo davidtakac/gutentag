@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     scrollController.dispose();
+    viewModel.dispose();
     super.dispose();
   }
 

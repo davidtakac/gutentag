@@ -27,4 +27,8 @@ class SingleBookViewModel {
       plainTextUrl: details.downloads.plainText
     );
   }
+
+  void dispose() {
+    state.dispose();
+  }
 }
