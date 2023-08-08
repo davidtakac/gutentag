@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/use_case/get_single_book_use_case.dart';
+import 'package:gutentag/di/injection.dart';
 import 'package:gutentag/ui/single/single_book_state.dart';
 import 'package:gutentag/ui/single/single_book_view_model.dart';
 import 'package:gutentag/ui/webview_screen.dart';
@@ -26,11 +25,7 @@ class _BookScreenState extends State<BookScreen> {
   void initState() {
     super.initState();
     platform = const MethodChannel('com.example.gutentag/download_manager');
-    viewModel = SingleBookViewModel(
-        getBookUseCase: GetSingleBookUseCase(
-            apiService: ApiService()
-        )
-    )..getBook(widget.bookId);
+    viewModel = getIt()..getBook(widget.bookId);
   }
 
   @override

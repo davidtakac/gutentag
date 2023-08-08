@@ -3,7 +3,9 @@ import 'package:gutentag/domain/books.dart';
 import 'package:gutentag/domain/copyright.dart';
 import 'package:gutentag/domain/language.dart';
 import 'package:gutentag/domain/sort.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SearchUseCase {
   const SearchUseCase({required ApiService apiService}) : _apiService = apiService;
 

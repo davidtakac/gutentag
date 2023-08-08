@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gutentag/data/api_service.dart';
-import 'package:gutentag/domain/use_case/search_use_case.dart';
+import 'package:gutentag/di/injection.dart';
 import 'package:gutentag/ui/common/book_card_state.dart';
 import 'package:gutentag/ui/search/search_view_model.dart';
 import 'package:gutentag/ui/common/book_card.dart';
@@ -21,11 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    viewModel = SearchViewModel(
-        searchBooksUseCase: SearchUseCase(
-            apiService: ApiService()
-        )
-    )..loadNextPage();
+    viewModel = getIt()..loadNextPage();
     scrollController = ScrollController()
       ..addListener(() {
         if (scrollController.position.atEdge && scrollController.position.pixels != 0) {

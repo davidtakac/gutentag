@@ -6,7 +6,9 @@ import 'package:gutentag/domain/sort.dart';
 import 'package:gutentag/domain/use_case/search_use_case.dart';
 
 import 'package:gutentag/ui/common/book_card_state.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SearchViewModel {
   final SearchUseCase searchBooksUseCase;
   SearchViewModel({required this.searchBooksUseCase});

@@ -6,7 +6,9 @@ import 'package:gutentag/domain/copyright.dart';
 import 'package:gutentag/domain/language.dart';
 import 'package:gutentag/domain/sort.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class ApiService {
   final _url = 'https://gutendex.com/books';
 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:gutentag/data/api_service.dart';
+import 'package:gutentag/di/injection.dart';
 import 'package:gutentag/domain/sort.dart';
-import 'package:gutentag/domain/use_case/search_use_case.dart';
 import 'package:gutentag/ui/common/book_card.dart';
 import 'package:gutentag/ui/common/book_card_state.dart';
 import 'package:gutentag/ui/search/filter_screen.dart';
@@ -23,8 +22,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   @override
   void initState() {
     super.initState();
-    viewModel = SearchViewModel(
-        searchBooksUseCase: SearchUseCase(apiService: ApiService()));
+    viewModel = getIt();
     textController = TextEditingController()..text = viewModel.query;
     scrollController = ScrollController()
       ..addListener(() {
