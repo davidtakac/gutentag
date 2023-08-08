@@ -15,17 +15,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final viewModel = SearchViewModel(searchBooksUseCase: SearchUseCase(apiService: ApiService()))..loadNextPage();
+  late SearchViewModel viewModel;
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    viewModel = SearchViewModel(
+        searchBooksUseCase: SearchUseCase(
+            apiService: ApiService()
+        )
+    )..loadNextPage();
+    scrollController = ScrollController()
+      ..addListener(() {
+        if (scrollController.position.atEdge && scrollController.position.pixels != 0) {
+          viewModel.loadNextPage();
+        }
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final listController = ScrollController();
-    listController.addListener(() {
-      if (listController.position.atEdge && listController.position.pixels != 0) {
-        viewModel.loadNextPage();
-      }
-    });
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.home_title),
@@ -34,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder:(context) {
-                  return BookSearchScreen();
+                  return const BookSearchScreen();
                 },)
               );
             }, 
@@ -48,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             valueListenable: viewModel.results,
             builder: (BuildContext context, List<BookCardState>? value, Widget? child) {
               return ListView(
-                  controller: listController,
+                  controller: scrollController,
                   children: [
                     ...value?.map((e) => Padding(
                       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
