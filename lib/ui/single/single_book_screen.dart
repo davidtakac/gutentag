@@ -7,16 +7,30 @@ import 'package:gutentag/ui/single/single_book_state.dart';
 import 'package:gutentag/ui/single/single_book_view_model.dart';
 import 'package:gutentag/ui/webview_screen.dart';
 
-class BookScreen extends StatelessWidget {
-  final String _bookId;
-  final viewModel = SingleBookViewModel(getBookUseCase: GetSingleBookUseCase(apiService: ApiService()));
-  static const platform = MethodChannel('com.example.gutentag/download_manager');
+class BookScreen extends StatefulWidget {
+  final String bookId;
+  const BookScreen({
+    required this.bookId,
+    super.key
+  });
 
-  BookScreen({
-    required String bookId, 
-    Key? key
-  }) : _bookId = bookId, super(key: key) {
-    viewModel.getBook(_bookId);
+  @override
+  State<BookScreen> createState() => _BookScreenState();
+}
+
+class _BookScreenState extends State<BookScreen> {
+  late MethodChannel platform;
+  late SingleBookViewModel viewModel;
+
+  @override
+  void initState() {
+    platform = const MethodChannel('com.example.gutentag/download_manager');
+    viewModel = SingleBookViewModel(
+        getBookUseCase: GetSingleBookUseCase(
+            apiService: ApiService()
+        )
+    )..getBook(widget.bookId);
+    super.initState();
   }
 
   @override
@@ -34,12 +48,9 @@ class BookScreen extends StatelessWidget {
                 child: const LinearProgressIndicator()
               ),
               Expanded(
-                child: value == null 
+                child: value == null
                   ? const SizedBox()
-                  : ListView(
-                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                    children: _buildScreenList(context: context,state: value,)
-                  ),
+                  : _buildScreenContent(context: context, state: value),
               )
             ],
             );
@@ -48,7 +59,28 @@ class BookScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildScreenList({
+  Widget _buildScreenContent({
+    required BuildContext context,
+    required SingleBookState state
+  }) {
+    final items = _buildItems(context: context, state: state);
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+      itemCount: items.length,
+      itemBuilder: (context, index) => items[index],
+      separatorBuilder: (context, index) {
+        if (index == 0) {
+          return const SizedBox(height: 32,);
+        } else if (index == items.length - 1) {
+          return const SizedBox.shrink();
+        } else {
+          return const SizedBox(height: 8);
+        }
+      },
+    );
+  }
+
+  List<Widget> _buildItems({
     required BuildContext context,
     required SingleBookState state,
   }) {
@@ -60,7 +92,7 @@ class BookScreen extends StatelessWidget {
         translators: state.translators,
       )
     ];
-    result.add(const SizedBox(height: 32, width: 0,));
+
     final html5Url = state.html5Url;
     if (html5Url != null) {
       result.add(
@@ -79,57 +111,61 @@ class BookScreen extends StatelessWidget {
         )
       );
     }
+
     final epubUrl = state.epub3Url;
     if (epubUrl != null) {
       result.add(
         OutlinedButton(
           onPressed: () {
             platform.invokeMethod(
-              'download', 
-              { 
-                'url': epubUrl, 
-                'name': '${state.title}.epub' 
+              'download',
+              {
+                'url': epubUrl,
+                'name': '${state.title}.epub'
               }
             );
-          }, 
+          },
           child: Text(AppLocalizations.of(context)!.book_btn_download_epub)
         )
       );
     }
+
     final kindleUrl = state.kindleUrl;
     if (kindleUrl != null) {
       result.add(
         OutlinedButton(
           onPressed: () {
             platform.invokeMethod(
-              'download', 
-              { 
-                'url': kindleUrl, 
-                'name': '${state.title}.mobi' 
+              'download',
+              {
+                'url': kindleUrl,
+                'name': '${state.title}.mobi'
               }
             );
-          }, 
+          },
           child: Text(AppLocalizations.of(context)!.book_btn_download_kindle)
         )
       );
     }
+
     final textUrl = state.plainTextUrl;
-    if (kindleUrl != null) {
+    if (textUrl != null) {
       result.add(
         OutlinedButton(
           onPressed: () {
             platform.invokeMethod(
-              'download', 
-              { 
-                'url': textUrl, 
-                'name': '${state.title}.txt' 
+              'download',
+              {
+                'url': textUrl,
+                'name': '${state.title}.txt'
               }
             );
-          }, 
+          },
           child: Text(AppLocalizations.of(context)!.book_btn_download_txt)
         )
       );
     }
+
     return result;
   }
 }

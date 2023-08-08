@@ -3,9 +3,9 @@ import 'package:gutentag/domain/use_case/get_single_book_use_case.dart';
 import 'package:gutentag/ui/single/single_book_state.dart';
 
 class SingleBookViewModel {
+  final GetSingleBookUseCase getBookUseCase;
   SingleBookViewModel({required this.getBookUseCase,});
 
-  final GetSingleBookUseCase getBookUseCase;
   ValueNotifier<SingleBookState?> state = ValueNotifier(null);
 
   void getBook(String id) async {
