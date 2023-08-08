@@ -6,7 +6,7 @@ import 'package:gutentag/ui/search/language_picker_dialog.dart';
 
 class FilterScreen extends StatelessWidget {
   FilterScreen({required this.viewModel, super.key}) {
-    topicController.text = viewModel.topic.value;
+    topicController.text = viewModel.topic;
   }
 
   final SearchViewModel viewModel;
@@ -76,7 +76,7 @@ class FilterScreen extends StatelessWidget {
             Column(
               children: [
                 ValueListenableBuilder(
-                  valueListenable: viewModel.authorAliveBetween,
+                  valueListenable: viewModel.writtenBetween,
                   builder: (context, values, child) {
                     return RangeSlider(
                         min: SearchViewModel.writtenStartMin.toDouble(),
@@ -111,7 +111,7 @@ class FilterScreen extends StatelessWidget {
                 border: const OutlineInputBorder(),
                 hintText: AppLocalizations.of(context)!.search_filter_hint_topic,
               ),
-              onChanged: viewModel.setTopic,
+              onChanged: (topic) => viewModel.topic = topic,
             ),
             ValueListenableBuilder(
                 valueListenable: viewModel.languages,
