@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     viewModel = SearchViewModel(
         searchBooksUseCase: SearchUseCase(
             apiService: ApiService()
@@ -31,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
           viewModel.loadNextPage();
         }
       });
-    super.initState();
   }
 
   @override

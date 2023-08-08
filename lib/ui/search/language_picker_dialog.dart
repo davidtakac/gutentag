@@ -23,8 +23,8 @@ class _LanguagePickerDialogState extends State<LanguagePickerDialog> {
 
   @override
   void initState() {
-    selectedLanguages.addAll(widget.preselectedLanguages);
     super.initState();
+    selectedLanguages.addAll(widget.preselectedLanguages);
   }
 
   @override

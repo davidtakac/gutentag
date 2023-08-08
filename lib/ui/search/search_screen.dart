@@ -22,6 +22,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
 
   @override
   void initState() {
+    super.initState();
     viewModel = SearchViewModel(
         searchBooksUseCase: SearchUseCase(apiService: ApiService()));
     textController = TextEditingController()..text = viewModel.query;
@@ -32,7 +33,6 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
           viewModel.loadNextPage();
         }
       });
-    super.initState();
   }
 
   @override

@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewScreen extends StatelessWidget {
+class WebViewScreen extends StatefulWidget {
   final String title;
   final String url;
-  final ValueNotifier<double> _progress = ValueNotifier(0.0);
 
-  WebViewScreen({
+  const WebViewScreen({
     required this.title,
     required this.url,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final webViewController = WebViewController()
+  State<WebViewScreen> createState() => _WebViewScreenState();
+}
+
+class _WebViewScreenState extends State<WebViewScreen> {
+  late WebViewController webViewController;
+  final ValueNotifier<double> _progress = ValueNotifier(0.0);
+
+  @override
+  void initState() {
+    super.initState();
+    webViewController = WebViewController()
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -22,10 +30,19 @@ class WebViewScreen extends StatelessWidget {
           },
         ),
       )
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(widget.url));
+  }
 
+  @override
+  void dispose() {
+    _progress.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title),),
+      appBar: AppBar(title: Text(widget.title),),
       body: Container(
         color: Colors.white,
         child: Column(

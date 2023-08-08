@@ -24,13 +24,13 @@ class _BookScreenState extends State<BookScreen> {
 
   @override
   void initState() {
+    super.initState();
     platform = const MethodChannel('com.example.gutentag/download_manager');
     viewModel = SingleBookViewModel(
         getBookUseCase: GetSingleBookUseCase(
             apiService: ApiService()
         )
     )..getBook(widget.bookId);
-    super.initState();
   }
 
   @override

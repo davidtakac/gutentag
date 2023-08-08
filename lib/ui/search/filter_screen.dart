@@ -17,8 +17,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   void initState() {
-    topicController = TextEditingController()..text = widget.viewModel.topic;
     super.initState();
+    topicController = TextEditingController()..text = widget.viewModel.topic;
   }
 
   @override
