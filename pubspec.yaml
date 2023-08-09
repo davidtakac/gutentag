@@ -17,6 +17,8 @@ dependencies:
   webview_flutter:
   injectable:
   get_it:
+  equatable:
+  bloc:
 
 dev_dependencies:
   flutter_test:
