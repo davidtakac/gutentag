@@ -13,6 +13,7 @@
   "search_sort_descending": "A-Z",
   "search_idle": "Try 'Dracula'. I hear it's quite good.",
   "search_no_results": "No results for \"{query}\" with the applied filters. Try something else.",
+  "search_error": "There's been an error. Try again.",
   "search_filter_title": "Filter book results",
   "search_filter_title_copyright": "Copyright",
   "search_filter_label_copyright_yes": "Yes",

@@ -1,63 +1,69 @@
 part of 'search_bloc.dart';
 
+enum SearchStatus {
+  idle, loading, error, empty, success
+}
+
 class SearchState extends Equatable {
   final List<BookCardState> results;
-  final bool isLoading;
-  final bool isEmpty;
-  final bool isError;
-  final int? nextPage;
+  final String query;
+  final SearchStatus status;
+  final Sort sortOption;
+  final List<Copyright> copyrightOptions;
+  final int writtenStart;
+  final int writtenEnd;
+  final String topic;
+  final List<Language> languages;
 
   const SearchState._({
+    required this.query,
     required this.results,
-    required this.isLoading,
-    required this.isEmpty,
-    required this.isError,
-    required this.nextPage
+    required this.status,
+    required this.sortOption,
+    required this.copyrightOptions,
+    required this.writtenStart,
+    required this.writtenEnd,
+    required this.topic,
+    required this.languages
   }) : super();
 
   const SearchState.initial() : this._(
-      results: const [],
-      isLoading: false,
-      isEmpty: false,
-      isError: false,
-      nextPage: 1
+    query: '',
+    results: const [],
+    status: SearchStatus.idle,
+    sortOption: Sort.popular,
+    copyrightOptions: Copyright.values,
+    writtenStart: -3500,
+    writtenEnd: 2023,
+    topic: '',
+    languages: const []
   );
 
-  SearchState.loading(SearchState currentState) : this._(
-      results: currentState.results,
-      isEmpty: currentState.isEmpty,
-      isError: currentState.isError,
-      nextPage: currentState.nextPage,
-      isLoading: true
-  );
-
-  const SearchState.empty() : this._(
-      results: const [],
-      isLoading: false,
-      isEmpty: true,
-      isError: false,
-      nextPage: 1
-  );
-
-  const SearchState.error() : this._(
-      results: const [],
-      isLoading: false,
-      isEmpty: false,
-      isError: true,
-      nextPage: 1
-  );
-
-  const SearchState.success(
-    List<BookCardState> results,
-    int? nextPage,
-  ) : this._(
-      results: results,
-      isLoading: false,
-      isEmpty: false,
-      isError: false,
-      nextPage: nextPage
+  SearchState copyWith({
+    String? query,
+    List<BookCardState>? results,
+    SearchStatus? status,
+    Sort? sortOption,
+    List<Copyright>? copyrightOptions,
+    int? writtenStart,
+    int? writtenEnd,
+    String? topic,
+    List<Language>? languages
+  }) => SearchState._(
+    query: query ?? this.query,
+    results: results ?? this.results,
+    status: status ?? this.status,
+    sortOption: sortOption ?? this.sortOption,
+    copyrightOptions: copyrightOptions ?? this.copyrightOptions,
+    writtenStart: writtenStart ?? this.writtenStart,
+    writtenEnd: writtenEnd ?? this.writtenEnd,
+    topic: topic ?? this.topic,
+    languages: languages ?? this.languages
   );
 
   @override
-  List<Object?> get props => [results, isLoading, isEmpty, isError, nextPage];
+  List<Object?> get props => [
+    results, status, sortOption, copyrightOptions,
+    writtenStart, writtenEnd, topic, languages
+  ];
 }
