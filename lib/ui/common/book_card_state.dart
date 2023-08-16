@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:gutentag/domain/books.dart';
 
-class BookCardState {
+class BookCardState extends Equatable {
   final String id;
   final String title;
   final String authors;
@@ -27,10 +28,7 @@ class BookCardState {
   );
 
   @override
-  bool operator ==(Object other) => 
-    other is BookCardState && other.id == id && other.title == title && other.authors == authors && other.languages == languages && other.subjects == subjects && other.coverUrl == coverUrl;
-
-  @override
-  int get hashCode => 
-    id.hashCode * title.hashCode * authors.hashCode * languages.hashCode * subjects.hashCode * coverUrl.hashCode;
+  List<Object?> get props => [
+    id, title, authors, languages, subjects, coverUrl
+  ];
 }

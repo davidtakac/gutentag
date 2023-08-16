@@ -1,4 +1,6 @@
-class SingleBookState {
+import 'package:equatable/equatable.dart';
+
+class SingleBookState extends Equatable {
   final String title;
   final String? coverUrl;
   final String authors;
@@ -24,19 +26,9 @@ class SingleBookState {
   });
 
   @override
-  int get hashCode => 
-    title.hashCode * authors.hashCode 
-      * translators.hashCode * coverUrl.hashCode
-      * subjects.hashCode * downloadCount.hashCode
-      * html5Url.hashCode * epub3Url.hashCode
-      * kindleUrl.hashCode * plainTextUrl.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-    other is SingleBookState
-      && other.title == title && other.authors == authors 
-      && other.coverUrl == coverUrl && other.translators == translators 
-      && other.subjects == subjects && other.downloadCount == downloadCount
-      && other.html5Url == html5Url && other.epub3Url == epub3Url 
-      && other.kindleUrl == kindleUrl && other.plainTextUrl == plainTextUrl;
+  List<Object?> get props => [
+    title, coverUrl, authors, translators,
+    subjects, downloadCount, html5Url, epub3Url,
+    kindleUrl, plainTextUrl
+  ];
 }
