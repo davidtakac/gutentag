@@ -1,6 +1,11 @@
 import 'package:equatable/equatable.dart';
 
+enum SingleBookStatus {
+  idle, loading, success, error;
+}
+
 class SingleBookState extends Equatable {
+  final SingleBookStatus status;
   final String title;
   final String? coverUrl;
   final String authors;
@@ -12,7 +17,8 @@ class SingleBookState extends Equatable {
   final String? kindleUrl; 
   final String? plainTextUrl;
 
-  const SingleBookState({
+  const SingleBookState._({
+    required this.status,
     required this.title,
     required this.coverUrl,
     required this.authors,
@@ -24,6 +30,46 @@ class SingleBookState extends Equatable {
     required this.kindleUrl,
     required this.plainTextUrl
   });
+
+  const SingleBookState.initial() : this._(
+    status: SingleBookStatus.idle,
+    title: '',
+    coverUrl: null,
+    authors: '',
+    translators: '',
+    subjects: '',
+    downloadCount: 0,
+    html5Url: null,
+    epub3Url: null,
+    kindleUrl: null,
+    plainTextUrl: null,
+  );
+
+  SingleBookState copyWith({
+    SingleBookStatus? status,
+    String? title,
+    String? coverUrl,
+    String? authors,
+    String? translators,
+    String? subjects,
+    int? downloadCount,
+    String? html5Url,
+    String? epub3Url,
+    String? kindleUrl,
+    String? plainTextUrl,
+  }) => SingleBookState._(
+    status: status ?? this.status,
+    title: title ?? this.title,
+    coverUrl: coverUrl ?? this.coverUrl,
+    authors: authors ?? this.authors,
+    translators: translators ?? this.translators,
+    subjects: subjects ?? this.subjects,
+    downloadCount: downloadCount ?? this.downloadCount,
+    html5Url: html5Url ?? this.html5Url,
+    epub3Url: epub3Url ?? this.epub3Url,
+    kindleUrl: kindleUrl ?? this.kindleUrl,
+    plainTextUrl: plainTextUrl ?? this.plainTextUrl,
+  );
 
   @override
   List<Object?> get props => [

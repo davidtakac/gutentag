@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:gutentag/di/injection.dart';
 import 'package:gutentag/ui/single/single_book_state.dart';
-import 'package:gutentag/ui/single/single_book_view_model.dart';
+import 'package:gutentag/ui/single/single_book_cubit.dart';
 import 'package:gutentag/ui/webview_screen.dart';
 
 class BookScreen extends StatefulWidget {
@@ -19,18 +20,18 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenState extends State<BookScreen> {
   late MethodChannel platform;
-  late SingleBookViewModel viewModel;
+  late SingleBookCubit cubit;
 
   @override
   void initState() {
     super.initState();
     platform = const MethodChannel('com.example.gutentag/download_manager');
-    viewModel = getIt()..getBook(widget.bookId);
+    cubit = getIt()..getBook(widget.bookId);
   }
 
   @override
   void dispose() {
-    viewModel.dispose();
+    cubit.close();
     super.dispose();
   }
 
@@ -38,20 +39,21 @@ class _BookScreenState extends State<BookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.book_title),),
-      body: ValueListenableBuilder(
-        valueListenable: viewModel.state,
-        builder:(context, value, child) {
+      body: BlocConsumer<SingleBookCubit, SingleBookState>(
+        bloc: cubit,
+        listener: (_, __) {},
+        builder: (context, state) {
           return Column(
             children: [
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
-                opacity: value == null ? 1 : 0,
+                opacity: state.status == SingleBookStatus.loading ? 1 : 0,
                 child: const LinearProgressIndicator()
               ),
               Expanded(
-                child: value == null
+                child: state.status != SingleBookStatus.success
                   ? const SizedBox()
-                  : _buildScreenContent(context: context, state: value),
+                  : _buildScreenContent(context: context, state: state),
               )
             ],
             );
