@@ -98,6 +98,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         writtenStart: _writtenStart,
         writtenEnd: _writtenEnd,
         languages: _languages,
+        topic: _topic,
         page: page
     );
 
