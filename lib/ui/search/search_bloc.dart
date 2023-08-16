@@ -17,47 +17,63 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchUseCase _searchUseCase;
   int? _nextPage;
 
+  String _query = "";
+  String _topic = "";
+  Sort _sortOption = Sort.popular;
+  List<Copyright> _copyrightOptions = Copyright.values;
+  int _writtenStart = -3500;
+  int _writtenEnd = 2023;
+  List<Language> _languages = [];
+
   SearchBloc(this._searchUseCase) : super(const SearchState.initial()) {
     on<SearchEvent>((event, emit) async {
       if (event is SetQuery) {
         _resetPagination();
-        emit(state.copyWith(query: event.query));
+        _query = event.query;
+        emit(state.copyWith(query: _query));
       } else if (event is SetTopic) {
         _resetPagination();
-        emit(state.copyWith(topic: event.topic));
+        _topic = event.topic;
+        emit(state.copyWith(topic: _topic));
       } else if (event is SetSortOption) {
         _resetPagination();
-        emit(state.copyWith(sortOption: event.sortOption));
+        _sortOption = event.sortOption;
+        emit(state.copyWith(sortOption: _sortOption));
         emit(await _search(_nextPage!));
       } else if (event is ToggleCopyrightOption) {
         _resetPagination();
-        final newCopyrightOptions = [...state.copyrightOptions];
-        if (state.copyrightOptions.any((element) => element == event.copyrightOption)) {
+        final newCopyrightOptions = [..._copyrightOptions];
+        if (_copyrightOptions.any((element) => element == event.copyrightOption)) {
           newCopyrightOptions.remove(event.copyrightOption);
         } else {
           newCopyrightOptions.add(event.copyrightOption);
         }
-        emit(state.copyWith(copyrightOptions: newCopyrightOptions));
+        _copyrightOptions = newCopyrightOptions;
+        emit(state.copyWith(copyrightOptions: _copyrightOptions));
       } else if (event is SetWrittenBetween) {
         _resetPagination();
+        _writtenStart = event.writtenStart;
+        _writtenEnd = event.writtenEnd;
         emit(
           state.copyWith(
-            writtenStart: event.writtenStart,
-            writtenEnd: event.writtenEnd
+            writtenStart: _writtenStart,
+            writtenEnd: _writtenEnd
           )
         );
       } else if (event is ToggleLanguage) {
         _resetPagination();
-        final newLanguages = [...state.languages];
-        if (state.languages.any((element) => element == event.language)) {
+        final newLanguages = [..._languages];
+        if (_languages.any((element) => element == event.language)) {
           newLanguages.remove(event.language);
         } else {
           newLanguages.add(event.language);
         }
-        emit(state.copyWith(languages: newLanguages));
+        _languages = newLanguages;
+        emit(state.copyWith(languages: _languages));
       } else if (event is SetLanguages) {
         _resetPagination();
-        emit(state.copyWith(languages: event.languages));
+        _languages = event.languages;
+        emit(state.copyWith(languages: _languages));
       } else if (
         event is LoadMore
           && _nextPage != null
@@ -76,19 +92,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<SearchState> _search(int page) async {
     final books = await _searchUseCase.search(
-        query: state.query,
-        sortOption: state.sortOption,
-        copyrightOptions: state.copyrightOptions,
-        writtenStart: state.writtenStart,
-        writtenEnd: state.writtenEnd,
-        languages: state.languages,
+        query: _query,
+        sortOption: _sortOption,
+        copyrightOptions: _copyrightOptions,
+        writtenStart: _writtenStart,
+        writtenEnd: _writtenEnd,
+        languages: _languages,
         page: page
     );
 
     if (books == null) {
       return state.copyWith(status: SearchStatus.error);
     } else {
-      _nextPage = books.next ? page++ : null;
+      _nextPage = books.next ? page + 1 : null;
       final newPage = books.results
           .map((e) => BookCardState.fromEntity(entity: e))
           .toList();
